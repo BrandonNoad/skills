@@ -36,29 +36,34 @@ once per worktree (setup step 1 does it for you).
 | root `CONTEXT-MAP.md` | `.brandonnoad/CONTEXT-MAP.md` |
 | `src/<ctx>/CONTEXT.md`, `src/<ctx>/docs/adr/` | `.brandonnoad/context/<ctx>/CONTEXT.md`, `.brandonnoad/context/<ctx>/adr/` |
 | `docs/agents/{issue-tracker,domain,triage-labels}.md` | `.brandonnoad/config/{issue-tracker,domain,triage-labels}.md` |
-| `.scratch/` (local issue tracker) | `.brandonnoad/issue-tracker/` |
+| `.scratch/` (local issues) | `.brandonnoad/issue-tracker/` |
+| specs merged under the feature's tracker dir (`.scratch/<feature>/spec.md`) | their own tree: `.brandonnoad/specs/<feature-slug>.md` |
 | `## Agent skills` block written into shared `CLAUDE.md`/`AGENTS.md` | overview written to `.brandonnoad/CLAUDE.md`, surfaced via the `CLAUDE.local.md` symlink |
 
-## Behavioral change worth noting
+## Behavioral changes worth noting
 
-Upstream `setup-matt-pocock-skills` **edits the repo's committed `CLAUDE.md` or `AGENTS.md`**
-to add an `## Agent skills` pointer block. This fork does **not** touch shared files. The
-forked skills read config from the fixed `.brandonnoad/config/*` paths directly, so the
-shared pointer is unnecessary. The overview lives in the doc root and reaches your session
-only through `CLAUDE.local.md`.
+1. **Local markdown only.** Upstream `setup` offers GitHub / GitLab / local / other trackers
+   and defaults to GitHub. This fork removes the remote options entirely — the GitHub and
+   GitLab seed templates are deleted, and `setup` always writes the local-markdown workflow.
+   No work is ever published to a shared team tracker. Issues live under
+   `.brandonnoad/issue-tracker/`, specs under `.brandonnoad/specs/`.
+2. **No shared-file edits.** Upstream `setup` edits the repo's committed `CLAUDE.md` /
+   `AGENTS.md` to add an `## Agent skills` pointer block. This fork does **not** touch shared
+   files. The forked skills read config from the fixed `.brandonnoad/config/*` paths directly,
+   so the shared pointer is unnecessary. The overview lives in the doc root and reaches your
+   session only through `CLAUDE.local.md`.
 
 ## Files changed
 
-- `setup-matt-pocock-skills/SKILL.md` — doc-root creation step; all output paths rebased; no
-  longer edits shared `CLAUDE.md`/`AGENTS.md`.
+- `setup-matt-pocock-skills/SKILL.md` — doc-root creation step; all output paths rebased;
+  always local-markdown (no tracker choice); no longer edits shared `CLAUDE.md`/`AGENTS.md`.
 - `setup-matt-pocock-skills/scripts/link-docroot.sh` — **new**; creates the symlinks + exclude.
+- `setup-matt-pocock-skills/issue-tracker-github.md`, `issue-tracker-gitlab.md` — **deleted**.
+- `setup-matt-pocock-skills/issue-tracker-local.md` — `.scratch/` → `.brandonnoad/issue-tracker/`;
+  specs split out to `.brandonnoad/specs/<feature-slug>.md`.
 - `setup-matt-pocock-skills/domain.md` — consumer paths rebased.
-- `setup-matt-pocock-skills/issue-tracker-local.md` — `.scratch/` → `.brandonnoad/issue-tracker/`.
 - `domain-modeling/SKILL.md`, `CONTEXT-FORMAT.md`, `ADR-FORMAT.md` — CONTEXT/ADR/context paths rebased.
-- `code-review/SKILL.md` — config path rebased; local tracker location added to the spec search list.
-- `wayfinder/`, `to-spec/`, `grill-with-docs/` — unchanged; they already indirect through the
-  tracker/domain docs above, so no hardcoded paths to fix.
-
-Unchanged upstream files still reference `issue-tracker-github.md` / `issue-tracker-gitlab.md`
-for the GitHub/GitLab tracker cases; those keep upstream behavior (issues live in the remote
-tracker, not on disk), which is intentional.
+- `code-review/SKILL.md` — config path rebased; spec search points at `.brandonnoad/specs/`.
+- `to-spec/SKILL.md` — writes the spec to `.brandonnoad/specs/<feature-slug>.md`.
+- `wayfinder/`, `grill-with-docs/` — unchanged; they already indirect through the tracker/domain
+  docs above, so no hardcoded paths to fix.

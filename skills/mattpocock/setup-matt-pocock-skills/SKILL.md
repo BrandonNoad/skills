@@ -9,7 +9,7 @@ disable-model-invocation: true
 Scaffold the per-repo configuration that the engineering skills assume. Everything these skills write lives under a **personal doc root** — a `.brandonnoad/` symlink that points into the repo's shared git dir — so nothing lands in the committed tree your teammates share:
 
 - **Doc root** — `.brandonnoad/` → `<git-common-dir>/brandonnoad/`, shared across worktrees, excluded via `.git/info/exclude`
-- **Issue tracker** — where issues live (GitHub by default; local markdown under `.brandonnoad/issue-tracker/` is also supported out of the box)
+- **Issue tracker** — always local markdown: issues live under `.brandonnoad/issue-tracker/`, specs (PRDs) under `.brandonnoad/specs/`. Nothing goes to a shared team tracker.
 - **Triage labels** — the strings used for the five canonical triage roles
 - **Domain docs** — where `.brandonnoad/CONTEXT.md` and ADRs live, and the consumer rules for reading them
 
@@ -31,11 +31,10 @@ It creates `<git-common-dir>/brandonnoad/`, symlinks `.brandonnoad` → it at th
 
 Look at the current repo to understand its starting state. Read whatever exists; don't assume:
 
-- `git remote -v` and `.git/config` — is this a GitHub repo? Which one?
 - `.brandonnoad/config/` — does this skill's prior output already exist?
 - `.brandonnoad/CONTEXT.md` and `.brandonnoad/CONTEXT-MAP.md`
 - `.brandonnoad/adr/` and any `.brandonnoad/context/*/adr/` directories
-- `.brandonnoad/issue-tracker/` — sign that a local-markdown issue tracker convention is already in use
+- `.brandonnoad/issue-tracker/` and `.brandonnoad/specs/` — sign the local-markdown workflow is already in use
 - Is the `triage` skill installed? (a `triage` skill folder alongside this one, or `triage` in your available skills.) This decides whether Section B runs at all.
 - Monorepo signals — a `pnpm-workspace.yaml`, a `workspaces` field in `package.json`, or a populated `packages/*` with its own `src/`. Present only in a genuinely large multi-package repo; their absence means single-context, which is almost every repo.
 
@@ -45,18 +44,7 @@ Summarise what's present and what's missing. Then take the sections in order —
 
 Lead each section with the recommended answer so the user can accept it in a word. Give a one-line explainer only when the choice genuinely branches; skip the section entirely when exploration already settled it (Section B when `triage` isn't installed, Section C when there's no monorepo).
 
-**Section A — Issue tracker.**
-
-> Explainer: The "issue tracker" is where issues live for this repo. Skills like `to-tickets`, `triage`, `to-spec`, and `qa` read from and write to it — they need to know whether to call `gh issue create`, write a markdown file under `.brandonnoad/issue-tracker/`, or follow some other workflow you describe. Pick the place you actually track work for this repo.
-
-Default posture: these skills were designed for GitHub. If a `git remote` points at GitHub, propose that. If a `git remote` points at GitLab (`gitlab.com` or a self-hosted host), propose GitLab. Otherwise (or if the user prefers), offer:
-
-- **GitHub** — issues live in the repo's GitHub Issues (uses the `gh` CLI)
-- **GitLab** — issues live in the repo's GitLab Issues (uses the [`glab`](https://gitlab.com/gitlab-org/cli) CLI)
-- **Local markdown** — issues live as files under `.brandonnoad/issue-tracker/<feature>/` (good for solo projects, repos without a remote, or when you don't want issues in the team's tracker)
-- **Other** (Jira, Linear, etc.) — ask the user to describe the workflow in one paragraph; the skill will record it as freeform prose
-
-Record the choice in `.brandonnoad/config/issue-tracker.md`. The GitHub and GitLab templates carry a "PRs as a request surface" flag, defaulted **off** — leave it off and don't raise it; a user who wants external PRs in the triage queue can flip the flag in the file later.
+**Section A — Issue tracker.** No choice to make: this fork always uses the **local-markdown** workflow, so work never lands in a shared team tracker. Issues live as files under `.brandonnoad/issue-tracker/<feature>/` and specs (PRDs) as `.brandonnoad/specs/<feature>.md`. Write `.brandonnoad/config/issue-tracker.md` from the local template without asking.
 
 **Section B — Triage label vocabulary.** Skip this section entirely if the `triage` skill isn't installed (exploration told you) — an uninstalled skill needs no labels.
 
@@ -81,13 +69,9 @@ Let them edit before writing. Then write everything under the doc root:
 
 Config docs, using the seed templates in this skill folder as a starting point:
 
-- [issue-tracker-github.md](./issue-tracker-github.md) → `.brandonnoad/config/issue-tracker.md` — GitHub issue tracker
-- [issue-tracker-gitlab.md](./issue-tracker-gitlab.md) → `.brandonnoad/config/issue-tracker.md` — GitLab issue tracker
-- [issue-tracker-local.md](./issue-tracker-local.md) → `.brandonnoad/config/issue-tracker.md` — local-markdown issue tracker
+- [issue-tracker-local.md](./issue-tracker-local.md) → `.brandonnoad/config/issue-tracker.md` — local-markdown issues + specs workflow
 - [triage-labels.md](./triage-labels.md) → `.brandonnoad/config/triage-labels.md` — label mapping (only if `triage` is installed)
 - [domain.md](./domain.md) → `.brandonnoad/config/domain.md` — domain doc consumer rules + layout
-
-For "other" issue trackers, write `.brandonnoad/config/issue-tracker.md` from scratch using the user's description.
 
 Then write a short overview at `.brandonnoad/CLAUDE.md`. `scripts/link-docroot.sh` symlinks the repo-root `CLAUDE.local.md` to this file, so Claude Code auto-loads it every session — personal to you, gitignored, shared across worktrees, never in the committed tree. It gives a fresh session the layout at a glance:
 
