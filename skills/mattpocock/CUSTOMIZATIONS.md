@@ -1,0 +1,64 @@
+# Customizations vs upstream
+
+These skills are forked from [mattpocock/skills](https://github.com/mattpocock/skills) (MIT).
+The only change from upstream is **where the skills read and write docs**. Behavior,
+prompts, and structure are otherwise untouched, so re-syncing from upstream is mostly a
+matter of re-applying the path remapping below.
+
+## The one idea
+
+Everything these skills write goes under a single **personal doc root** instead of the
+committed tree, so a teammate's repo stays clean:
+
+```
+.brandonnoad            ->  <git-common-dir>/brandonnoad     (symlink, per worktree)
+CLAUDE.local.md         ->  .brandonnoad/CLAUDE.md           (symlink, per worktree)
+```
+
+- `.brandonnoad/` is a symlink into the repo's **shared git dir** (`git rev-parse
+  --git-common-dir` returns the main `.git` from any worktree), so every worktree shares
+  the same files — the same pattern as `.plans` in grower-gpt.
+- Both symlinks are excluded via `<git-common-dir>/info/exclude` (per-repo, uncommitted,
+  invisible to teammates) — not a global gitignore and not the committed `.gitignore`.
+- `CLAUDE.local.md` is a Claude Code "local instructions" file, auto-loaded every session.
+  Pointing it at `.brandonnoad/CLAUDE.md` gives you a personal, gitignored, worktree-shared
+  memory file without touching the shared `CLAUDE.md`.
+
+`setup-matt-pocock-skills/scripts/link-docroot.sh` creates all of this idempotently. Run it
+once per worktree (setup step 1 does it for you).
+
+## Path remapping (upstream → fork)
+
+| Upstream | Fork |
+|---|---|
+| root `CONTEXT.md` | `.brandonnoad/CONTEXT.md` |
+| `docs/adr/` | `.brandonnoad/adr/` |
+| root `CONTEXT-MAP.md` | `.brandonnoad/CONTEXT-MAP.md` |
+| `src/<ctx>/CONTEXT.md`, `src/<ctx>/docs/adr/` | `.brandonnoad/context/<ctx>/CONTEXT.md`, `.brandonnoad/context/<ctx>/adr/` |
+| `docs/agents/{issue-tracker,domain,triage-labels}.md` | `.brandonnoad/config/{issue-tracker,domain,triage-labels}.md` |
+| `.scratch/` (local issue tracker) | `.brandonnoad/issue-tracker/` |
+| `## Agent skills` block written into shared `CLAUDE.md`/`AGENTS.md` | overview written to `.brandonnoad/CLAUDE.md`, surfaced via the `CLAUDE.local.md` symlink |
+
+## Behavioral change worth noting
+
+Upstream `setup-matt-pocock-skills` **edits the repo's committed `CLAUDE.md` or `AGENTS.md`**
+to add an `## Agent skills` pointer block. This fork does **not** touch shared files. The
+forked skills read config from the fixed `.brandonnoad/config/*` paths directly, so the
+shared pointer is unnecessary. The overview lives in the doc root and reaches your session
+only through `CLAUDE.local.md`.
+
+## Files changed
+
+- `setup-matt-pocock-skills/SKILL.md` — doc-root creation step; all output paths rebased; no
+  longer edits shared `CLAUDE.md`/`AGENTS.md`.
+- `setup-matt-pocock-skills/scripts/link-docroot.sh` — **new**; creates the symlinks + exclude.
+- `setup-matt-pocock-skills/domain.md` — consumer paths rebased.
+- `setup-matt-pocock-skills/issue-tracker-local.md` — `.scratch/` → `.brandonnoad/issue-tracker/`.
+- `domain-modeling/SKILL.md`, `CONTEXT-FORMAT.md`, `ADR-FORMAT.md` — CONTEXT/ADR/context paths rebased.
+- `code-review/SKILL.md` — config path rebased; local tracker location added to the spec search list.
+- `wayfinder/`, `to-spec/`, `grill-with-docs/` — unchanged; they already indirect through the
+  tracker/domain docs above, so no hardcoded paths to fix.
+
+Unchanged upstream files still reference `issue-tracker-github.md` / `issue-tracker-gitlab.md`
+for the GitHub/GitLab tracker cases; those keep upstream behavior (issues live in the remote
+tracker, not on disk), which is intentional.
