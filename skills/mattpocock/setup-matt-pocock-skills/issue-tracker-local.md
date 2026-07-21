@@ -1,6 +1,6 @@
 # Issue tracker: Local Markdown
 
-Issues for this repo are tracked as local markdown under `.brandonnoad/issue-tracker/` — nothing goes to a shared team tracker. Specs live separately under `.brandonnoad/specs/` (see `specs.md`).
+Issues for this repo are tracked as local markdown under `.brandonnoad/issue-tracker/` — nothing goes to a shared team tracker. Specs live separately under `.brandonnoad/plans/` (see `specs.md`).
 
 ## Issues
 

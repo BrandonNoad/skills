@@ -16,7 +16,7 @@ The issue tracker and triage label vocabulary should have been provided to you â
 
 Check with the user that these seams match their expectations.
 
-3. Write the spec using the template below to `.brandonnoad/specs/<feature-slug>.md` (see `.brandonnoad/config/specs.md` for the workflow). Record `Status: ready-for-agent` near the top - no need for additional triage.
+3. Write the spec using the template below to `.brandonnoad/plans/<feature-slug>.md` (see `.brandonnoad/config/specs.md` for the workflow). Record `Status: ready-for-agent` near the top - no need for additional triage.
 
 <spec-template>
 

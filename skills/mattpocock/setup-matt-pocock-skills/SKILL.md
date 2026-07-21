@@ -9,7 +9,7 @@ disable-model-invocation: true
 Scaffold the per-repo configuration that the engineering skills assume. Everything these skills write lives under a **personal doc root** — a `.brandonnoad/` symlink that points into the repo's shared git dir — so nothing lands in the committed tree your teammates share:
 
 - **Doc root** — `.brandonnoad/` → `<git-common-dir>/brandonnoad/`, shared across worktrees, excluded via `.git/info/exclude`
-- **Issue tracker** — always local markdown: issues live under `.brandonnoad/issue-tracker/`, specs (PRDs) under `.brandonnoad/specs/`. Nothing goes to a shared team tracker.
+- **Issue tracker** — always local markdown: issues live under `.brandonnoad/issue-tracker/`, specs (PRDs) under `.brandonnoad/plans/`. Nothing goes to a shared team tracker.
 - **Triage labels** — the strings used for the five canonical triage roles
 - **Domain docs** — where `.brandonnoad/CONTEXT.md` and ADRs live, and the consumer rules for reading them
 
@@ -36,7 +36,7 @@ Look at the current repo to understand its starting state. Read whatever exists;
 - `.brandonnoad/config/` — does this skill's prior output already exist?
 - `.brandonnoad/CONTEXT.md` and `.brandonnoad/CONTEXT-MAP.md`
 - `.brandonnoad/adr/` and any `.brandonnoad/context/*/adr/` directories
-- `.brandonnoad/issue-tracker/` and `.brandonnoad/specs/` — sign the local-markdown workflow is already in use
+- `.brandonnoad/issue-tracker/` and `.brandonnoad/plans/` — sign the local-markdown workflow is already in use
 - Is the `triage` skill installed? (a `triage` skill folder alongside this one, or `triage` in your available skills.) This decides whether Section B runs at all.
 - Monorepo signals — a `pnpm-workspace.yaml`, a `workspaces` field in `package.json`, or a populated `packages/*` with its own `src/`. Present only in a genuinely large multi-package repo; their absence means single-context, which is almost every repo.
 
@@ -46,7 +46,7 @@ Summarise what's present and what's missing. Then take the sections in order —
 
 Lead each section with the recommended answer so the user can accept it in a word. Give a one-line explainer only when the choice genuinely branches; skip the section entirely when exploration already settled it (Section B when `triage` isn't installed, Section C when there's no monorepo).
 
-**Section A — Issue tracker.** No choice to make: this fork always uses the **local-markdown** workflow, so work never lands in a shared team tracker. Issues live as files under `.brandonnoad/issue-tracker/<feature>/` and specs (PRDs) as `.brandonnoad/specs/<feature>.md`. Write `.brandonnoad/config/issue-tracker.md` from the local template without asking.
+**Section A — Issue tracker.** No choice to make: this fork always uses the **local-markdown** workflow, so work never lands in a shared team tracker. Issues live as files under `.brandonnoad/issue-tracker/<feature>/` and specs (PRDs) as `.brandonnoad/plans/<feature>.md`. Write `.brandonnoad/config/issue-tracker.md` from the local template without asking.
 
 **Section B — Triage label vocabulary.** Skip this section entirely if the `triage` skill isn't installed (exploration told you) — an uninstalled skill needs no labels.
 
@@ -87,7 +87,7 @@ Then write a short overview at `.brandonnoad/CLAUDE.md`. `scripts/link-docroot.s
 
 ### Specs
 
-Specs (PRDs) live as `.brandonnoad/specs/<feature-slug>.md`. See `.brandonnoad/config/specs.md`.
+Specs (PRDs) live as `.brandonnoad/plans/<feature-slug>.md`. See `.brandonnoad/config/specs.md`.
 
 ### Triage labels
 
