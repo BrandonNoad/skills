@@ -1,6 +1,6 @@
 # Specs
 
-Specs (you may know a spec as a PRD) for this repo live as local markdown under the personal doc root — never in the committed tree, never in a shared team tracker.
+Specs (you may know a spec as a PRD or plan) for this repo live as local markdown under the personal doc root — never in the committed tree, never in a shared team tracker.
 
 ## Conventions
 
