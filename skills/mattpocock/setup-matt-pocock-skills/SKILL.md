@@ -19,11 +19,13 @@ This is a prompt-driven skill, not a deterministic script. Explore, present what
 
 ### 1. Create the doc root
 
-Before anything else, create the personal doc root so every later write has somewhere to go. Run the helper from this skill's folder (idempotent, safe to re-run in every worktree):
+Before anything else, create the personal doc root so every later write has somewhere to go. The helper script ships in this skill's folder, but it must run with the **target project as the working directory** — it resolves the repo from `git rev-parse`, so it targets whichever project you're in whether this skill is installed in the project or globally (`~/.claude/skills/`). Claude Code gives you this skill's base directory; invoke the script by its absolute path from the project root (idempotent, safe to re-run in every worktree):
 
 ```bash
-bash scripts/link-docroot.sh
+bash "<this-skill-dir>/scripts/link-docroot.sh"   # cwd must be the target project
 ```
+
+Do **not** `cd` into the skill folder to run it — that would resolve the wrong git repo and point the symlinks at the wrong place.
 
 It creates `<git-common-dir>/brandonnoad/`, symlinks `.brandonnoad` → it at the worktree root, creates a gitignored `CLAUDE.local.md` → `.brandonnoad/CLAUDE.md` symlink (Claude Code auto-loads it), and adds both `.brandonnoad` and `CLAUDE.local.md` to `<git-common-dir>/info/exclude`. Because the target is the shared git dir, every worktree that runs this points at the same files. Nothing is committed and teammates never see it.
 
