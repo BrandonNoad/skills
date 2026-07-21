@@ -35,7 +35,7 @@ once per worktree (setup step 1 does it for you).
 | `docs/adr/` | `.brandonnoad/adr/` |
 | root `CONTEXT-MAP.md` | `.brandonnoad/CONTEXT-MAP.md` |
 | `src/<ctx>/CONTEXT.md`, `src/<ctx>/docs/adr/` | `.brandonnoad/context/<ctx>/CONTEXT.md`, `.brandonnoad/context/<ctx>/adr/` |
-| `docs/agents/{issue-tracker,domain,triage-labels}.md` | `.brandonnoad/config/{issue-tracker,domain,triage-labels}.md` |
+| `docs/agents/{issue-tracker,domain,triage-labels}.md` | `.brandonnoad/config/{issue-tracker,specs,domain,triage-labels}.md` |
 | `.scratch/` (local issues) | `.brandonnoad/issue-tracker/` |
 | specs merged under the feature's tracker dir (`.scratch/<feature>/spec.md`) | their own tree: `.brandonnoad/specs/<feature-slug>.md` |
 | `## Agent skills` block written into shared `CLAUDE.md`/`AGENTS.md` | overview written to `.brandonnoad/CLAUDE.md`, surfaced via the `CLAUDE.local.md` symlink |
@@ -60,7 +60,9 @@ once per worktree (setup step 1 does it for you).
 - `setup-matt-pocock-skills/scripts/link-docroot.sh` — **new**; creates the symlinks + exclude.
 - `setup-matt-pocock-skills/issue-tracker-github.md`, `issue-tracker-gitlab.md` — **deleted**.
 - `setup-matt-pocock-skills/issue-tracker-local.md` — `.scratch/` → `.brandonnoad/issue-tracker/`;
-  specs split out to `.brandonnoad/specs/<feature-slug>.md`.
+  specs conventions removed (now their own config).
+- `setup-matt-pocock-skills/specs.md` — **new**; spec location + naming, written to
+  `.brandonnoad/config/specs.md`, parallel to the other config docs.
 - `setup-matt-pocock-skills/domain.md` — consumer paths rebased.
 - `domain-modeling/SKILL.md`, `CONTEXT-FORMAT.md`, `ADR-FORMAT.md` — CONTEXT/ADR/context paths rebased.
 - `code-review/SKILL.md` — config path rebased; spec search points at `.brandonnoad/specs/`.

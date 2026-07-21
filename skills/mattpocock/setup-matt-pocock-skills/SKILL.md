@@ -69,7 +69,8 @@ Let them edit before writing. Then write everything under the doc root:
 
 Config docs, using the seed templates in this skill folder as a starting point:
 
-- [issue-tracker-local.md](./issue-tracker-local.md) → `.brandonnoad/config/issue-tracker.md` — local-markdown issues + specs workflow
+- [issue-tracker-local.md](./issue-tracker-local.md) → `.brandonnoad/config/issue-tracker.md` — local-markdown issues + wayfinding
+- [specs.md](./specs.md) → `.brandonnoad/config/specs.md` — where specs (PRDs) live and how they're named
 - [triage-labels.md](./triage-labels.md) → `.brandonnoad/config/triage-labels.md` — label mapping (only if `triage` is installed)
 - [domain.md](./domain.md) → `.brandonnoad/config/domain.md` — domain doc consumer rules + layout
 
@@ -81,6 +82,10 @@ Then write a short overview at `.brandonnoad/CLAUDE.md`. `scripts/link-docroot.s
 ### Issue tracker
 
 [one-line summary of where issues are tracked]. See `.brandonnoad/config/issue-tracker.md`.
+
+### Specs
+
+Specs (PRDs) live as `.brandonnoad/specs/<feature-slug>.md`. See `.brandonnoad/config/specs.md`.
 
 ### Triage labels
 

@@ -1,11 +1,6 @@
 # Issue tracker: Local Markdown
 
-All work for this repo is tracked as local markdown under the personal doc root — nothing goes to a shared team tracker. Issues live under `.brandonnoad/issue-tracker/`; specs (you may know a spec as a PRD) live under `.brandonnoad/specs/`.
-
-## Specs
-
-- One markdown file per spec: `.brandonnoad/specs/<feature-slug>.md`
-- `<feature-slug>` matches the feature's issue directory (below), so a spec and its implementation issues share a name.
+Issues for this repo are tracked as local markdown under `.brandonnoad/issue-tracker/` — nothing goes to a shared team tracker. Specs live separately under `.brandonnoad/specs/` (see `specs.md`).
 
 ## Issues
 
@@ -16,7 +11,7 @@ All work for this repo is tracked as local markdown under the personal doc root 
 
 ## When a skill says "publish to the issue tracker"
 
-Create a new issue file under `.brandonnoad/issue-tracker/<feature-slug>/` (creating the directory if needed). A spec goes to `.brandonnoad/specs/<feature-slug>.md` instead.
+Create a new issue file under `.brandonnoad/issue-tracker/<feature-slug>/` (creating the directory if needed). Specs are separate — see `specs.md`.
 
 ## When a skill says "fetch the relevant ticket"
 
