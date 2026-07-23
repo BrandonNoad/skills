@@ -126,3 +126,9 @@ User invokes with a map (URL or number). A ticket is **optional** — without on
 5. Add newly-surfaced tickets (create-then-wire); graduate any fog the answer has made specifiable, clearing each graduated patch from **Not yet specified** so it lives only as its new ticket. If the answer reveals a ticket — this one or another — sits beyond the destination, **rule it out of scope** rather than resolving it on the route. If the decision invalidates other parts of the map, update or delete those tickets.
 
 The user may run unblocked tickets in parallel, so expect other sessions to be editing the tracker concurrently.
+
+### Reach the destination
+
+When the frontier empties — every ticket closed, nothing left to decide — the way is clear and the map has arrived. If the destination is a written artifact (a spec or plan), assemble it now: synthesise the map's **Destination**, **Notes**, and **Decisions so far** into it, zooming into ticket bodies and linked assets (prototypes, research) for the detail the index only gists. Honour any supersession notes recorded in Decisions-so-far (a later ticket that overrode an earlier one wins). This is the one time wayfinder produces the deliverable rather than a decision — it's the handoff, not execution.
+
+When that artifact is a plan under `.brandonnoad/plans/`, write it there following the format in `.brandonnoad/config/specs.md`.

@@ -9,7 +9,7 @@ disable-model-invocation: true
 Scaffold the per-repo configuration that the engineering skills assume. Everything these skills write lives under a **personal doc root** — a `.brandonnoad/` symlink that points into the repo's shared git dir — so nothing lands in the committed tree your teammates share:
 
 - **Doc root** — `.brandonnoad/` → `<git-common-dir>/brandonnoad/`, shared across worktrees, excluded via `.git/info/exclude`
-- **Issue tracker** — always local markdown: issues live under `.brandonnoad/issue-tracker/`, specs (PRDs) under `.brandonnoad/plans/`. Nothing goes to a shared team tracker.
+- **Issue tracker** — always local markdown: issues live under `.brandonnoad/issue-tracker/`, specs (PRDs or plans) under `.brandonnoad/plans/`. Nothing goes to a shared team tracker.
 - **Triage labels** — the strings used for the five canonical triage roles
 - **Domain docs** — where `.brandonnoad/CONTEXT.md` and ADRs live, and the consumer rules for reading them
 
@@ -46,7 +46,7 @@ Summarise what's present and what's missing. Then take the sections in order —
 
 Lead each section with the recommended answer so the user can accept it in a word. Give a one-line explainer only when the choice genuinely branches; skip the section entirely when exploration already settled it (Section B when `triage` isn't installed, Section C when there's no monorepo).
 
-**Section A — Issue tracker.** No choice to make: this fork always uses the **local-markdown** workflow, so work never lands in a shared team tracker. Issues live as files under `.brandonnoad/issue-tracker/<feature>/` and specs (PRDs) as `.brandonnoad/plans/<feature>.md`. Write `.brandonnoad/config/issue-tracker.md` from the local template without asking.
+**Section A — Issue tracker.** No choice to make: this fork always uses the **local-markdown** workflow, so work never lands in a shared team tracker. Issues live as files under `.brandonnoad/issue-tracker/<feature>/` and specs (PRDs or plans) as `.brandonnoad/plans/<feature>.md`. Write `.brandonnoad/config/issue-tracker.md` from the local template without asking.
 
 **Section B — Triage label vocabulary.** Skip this section entirely if the `triage` skill isn't installed (exploration told you) — an uninstalled skill needs no labels.
 
@@ -72,7 +72,7 @@ Let them edit before writing. Then write everything under the doc root:
 Config docs, using the seed templates in this skill folder as a starting point:
 
 - [issue-tracker-local.md](./issue-tracker-local.md) → `.brandonnoad/config/issue-tracker.md` — local-markdown issues + wayfinding
-- [specs.md](./specs.md) → `.brandonnoad/config/specs.md` — where specs (PRDs) live and how they're named
+- [specs.md](./specs.md) → `.brandonnoad/config/specs.md` — where specs (PRDs or plans) live and how they're named
 - [triage-labels.md](./triage-labels.md) → `.brandonnoad/config/triage-labels.md` — label mapping (only if `triage` is installed)
 - [domain.md](./domain.md) → `.brandonnoad/config/domain.md` — domain doc consumer rules + layout
 
@@ -87,7 +87,7 @@ Then write a short overview at `.brandonnoad/CLAUDE.md`. `scripts/link-docroot.s
 
 ### Specs
 
-Specs (PRDs) live as `.brandonnoad/plans/<feature-slug>.md`. See `.brandonnoad/config/specs.md`.
+Specs (PRDs or plans) live as `.brandonnoad/plans/<feature-slug>.md`. See `.brandonnoad/config/specs.md`.
 
 ### Triage labels
 

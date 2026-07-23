@@ -1,9 +1,10 @@
 # Customizations vs upstream
 
 These skills are forked from [mattpocock/skills](https://github.com/mattpocock/skills) (MIT).
-The only change from upstream is **where the skills read and write docs**. Behavior,
-prompts, and structure are otherwise untouched, so re-syncing from upstream is mostly a
-matter of re-applying the path remapping below.
+Most changes are **where the skills read and write docs** (the path remapping below). A few
+go further: the fork is local-markdown only, `to-spec` is removed in favour of wayfinder
+assembling the plan, and `specs.md` defines a lower-level, implementation-ready plan format.
+Those are called out under *Behavioral changes*.
 
 ## The one idea
 
@@ -52,6 +53,19 @@ once per worktree (setup step 1 does it for you).
    files. The forked skills read config from the fixed `.brandonnoad/config/*` paths directly,
    so the shared pointer is unnecessary. The overview lives in the doc root and reaches your
    session only through `CLAUDE.local.md`.
+3. **No `to-spec`; wayfinder assembles the plan.** Upstream's pipeline is
+   wayfinder → to-spec → to-tickets. `to-spec` is conversation-driven (it synthesises the
+   current chat) and deliberately path-free, which doesn't fit a workflow where wayfinder
+   persists a map to disk and the plan must be concrete enough for an unattended implementer.
+   So `to-spec` is **deleted**, and wayfinder gains a **Reach the destination** step: when the
+   frontier empties it assembles the plan from the map + tickets + prototypes, following
+   `.brandonnoad/config/specs.md`.
+4. **`specs.md` defines the plan format.** Beyond location and naming, `config/specs.md`
+   specifies the plan body (Goal, Scope, Changes-per-file with real paths, Verification, Risks,
+   Accepted tradeoffs) and **requires concrete file paths** — the opposite of upstream's
+   path-free specs, justified because the plan is implemented immediately and then discarded,
+   so nothing goes stale. The plan carries no frontmatter; task metadata is collected at
+   task-creation time.
 
 ## Files changed
 
@@ -61,11 +75,13 @@ once per worktree (setup step 1 does it for you).
 - `setup-matt-pocock-skills/issue-tracker-github.md`, `issue-tracker-gitlab.md` — **deleted**.
 - `setup-matt-pocock-skills/issue-tracker-local.md` — `.scratch/` → `.brandonnoad/issue-tracker/`;
   specs conventions removed (now their own config).
-- `setup-matt-pocock-skills/specs.md` — **new**; spec location + naming, written to
-  `.brandonnoad/config/specs.md`, parallel to the other config docs.
+- `setup-matt-pocock-skills/specs.md` — **new**; the plan format plus location/naming, written
+  to `.brandonnoad/config/specs.md`, parallel to the other config docs.
 - `setup-matt-pocock-skills/domain.md` — consumer paths rebased.
 - `domain-modeling/SKILL.md`, `CONTEXT-FORMAT.md`, `ADR-FORMAT.md` — CONTEXT/ADR/context paths rebased.
 - `code-review/SKILL.md` — config path rebased; spec search points at `.brandonnoad/plans/`.
-- `to-spec/SKILL.md` — writes the spec to `.brandonnoad/plans/<feature-slug>.md`.
-- `wayfinder/`, `grill-with-docs/` — unchanged; they already indirect through the tracker/domain
-  docs above, so no hardcoded paths to fix.
+- `wayfinder/SKILL.md` — added a **Reach the destination** step: assembles the plan from the map
+  per `.brandonnoad/config/specs.md` when the frontier empties.
+- `to-spec/` — **deleted**; wayfinder assembles the plan instead (behavioral change 3).
+- `grill-with-docs/` — unchanged; already indirects through the tracker/domain docs, no hardcoded
+  paths to fix.
