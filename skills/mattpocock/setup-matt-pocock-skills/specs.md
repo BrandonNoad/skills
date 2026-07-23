@@ -16,6 +16,7 @@ Structure the body so a fresh agent executes it exactly, no guesswork:
 
 - **Goal & guiding principle** — what we're building and a one-line north star. Prefer the simplest working approach; no speculative abstraction.
 - **Scope** — explicit *in scope* / *out of scope* bullets. The implementer won't re-scope or add anything the spec doesn't call for.
+- **Background the implementer needs** (optional) — the one or two hard-won, load-bearing facts that make the changes make sense: a constraint the planning surfaced, why the obvious approach fails, a discovered fact later steps depend on. Include only when the diffs would be baffling without it (a wayfinder plan usually has exactly one); skip for self-evident work.
 - **Changes, per file** — concrete: which files to create or edit, what each change is, key function/type names and signatures, how they wire together. **Reference real paths.** Unlike a durable product spec, this plan is implemented immediately and then discarded, so concrete paths don't go stale — spell them out. Carry forward any prototypes or resolved designs the planning produced.
 - **Verification / acceptance criteria** — how to confirm it works: tests to add or run, behaviour to observe. A reviewer checks the diff against these first.
 - **Risks / edge cases** — what the implementer must handle rather than assume.
